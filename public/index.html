@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>YouTube Downloader</title>
+  </head>
+  <body class="flex justify-center items-center h-screen bg-stone-900">
+    <form class="w-full h-1/2 flex justify-center items-center flex-col">
+      <img
+        src="./assets/YouTube.svg"
+        alt="youtube logo"
+        width="200"
+        height="80"
+      />
+      <div action="" class="w-full h-16 flex justify-center items-center">
+        <input
+          id="link"
+          type="text"
+          class="w-1/2 h-11 rounded-lg pl-2 border-none"
+          placeholder="URL: https://www.youtube.com/watch?"
+          required
+        />
+        <select
+          class="border border-gray-400 h-11 rounded-md px-4 py-3 ml-1 border-none"
+          id="format"
+          required
+        >
+          <option value="MP4">MP4</option>
+          <option value="MP3">MP3</option>
+        </select>
+      </div>
+      <button class="h-12 w-24 rounded-lg download-btn" id="send-data">
+        <h3 class="text-white">Download</h3>
+      </button>
+    </form>
+    <script>
+      const sendButton = document.getElementById("send-data");
+      sendButton.addEventListener("click", () => {
+        const link = document.getElementById("link").value;
+        const format = document.getElementById("format").value;
+        data = {
+          url: link,
+          format: format,
+        };
+        console.log(data);
+        window.api.send("data", data);
+      });
+    </script>
+  </body>
+</html>
+<!-- 
+https://www.youtube.com/watch?v=yuIkA2rbPAM&list=PLV5EVfknuhlJpfeXIWsUMYEAscsyfhejp -->

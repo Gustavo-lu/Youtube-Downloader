@@ -1,0 +1,14 @@
+body {
+    font-family: 'Poppins';font-size: 15px;
+}
+.download-btn{
+    background-color: red;
+    margin-top: 15px;
+    -moz-transition: all .2s ease-in-out;;
+    -o-transition: all .2s ease-in-out;;
+    transition: all .2s ease-in-out;;
+}
+
+.download-btn:hover{
+    transform: scale(1.5);
+}
