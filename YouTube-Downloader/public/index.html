@@ -50,11 +50,8 @@
           url: link,
           format: format,
         };
-        console.log(data);
-        window.api.send("data", data);
+        link&&(window.api.send("data", data));
       });
     </script>
   </body>
 </html>
-<!-- 
-https://www.youtube.com/watch?v=yuIkA2rbPAM&list=PLV5EVfknuhlJpfeXIWsUMYEAscsyfhejp -->

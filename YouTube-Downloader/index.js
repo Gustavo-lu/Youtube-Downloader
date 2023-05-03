@@ -1,16 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const Downloader = require("./downloader");
-
-
-
-
+let win;
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     resizable: false,
-    icon: __dirname + '/public/assets/YouTubeico.png',
+    icon: __dirname + "/public/assets/YouTubeico.png",
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -23,7 +20,6 @@ function createWindow() {
 ipcMain.on("data", (event, arg) => {
   Downloader(arg);
 });
-
 app.whenReady().then(() => {
   createWindow();
 

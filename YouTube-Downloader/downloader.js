@@ -1,6 +1,10 @@
 const path = require("path");
 const ytdl = require("ytdl-core");
 const fs = require("fs");
+const { shell } = require("electron");
+
+const notifier = require("node-notifier");
+
 function getDownloadFolderPath() {
   let downloadFolderPath;
   if (process.platform === "win32") {
@@ -12,6 +16,7 @@ function getDownloadFolderPath() {
   }
   return downloadFolderPath;
 }
+
 function validate(link) {
   if (typeof link !== "string") {
     return "O link deve ser uma string";
@@ -22,12 +27,12 @@ function validate(link) {
   if (!link.match(/^https?:\/\/[A-Za-z0-9\-\.]+[A-Za-z]{2,}\S*/)) {
     return "O link não tem um domínio válido";
   }
-  return "valido";
+  return "pass";
 }
 
 async function Downloader(data) {
-    const linkvalidated = validate(data.url)
-  if (linkvalidated === "valido") {
+  const linkvalidated = validate(data.url);
+  if (linkvalidated === "pass") {
     const downloadFolderPath = getDownloadFolderPath();
     const videoInfo = await ytdl.getInfo(data.url);
     const videoTitle = videoInfo.videoDetails.title;
@@ -54,12 +59,35 @@ async function Downloader(data) {
     videoStream
       .pipe(fs.createWriteStream(path.join(downloadFolderPath, fileName)))
       .on("finish", () => {
-        console.log(
-          `Video downloaded successfully to ${downloadFolderPath}/${fileName}`
+        notifier.notify(
+          {
+            appID: "YouTubeDownloader",
+            title: "Arquivo salvo",
+            message: "Seu arquivo foi salvo com sucesso!",
+            icon: path.join(__dirname, "/public/assets/YouTubeico.png"),
+            sound: true,
+            wait: true,
+            backgroundColor: "#1c1917",
+            timeout: 5,
+          },
+          (err, response, metadata) => {
+            if (response === "activate") {
+              shell.openPath(`${downloadFolderPath}/${fileName}`);
+            }
+          }
         );
       });
-  }else{
-    console.log(linkvalidated)
+  } else {
+    notifier.notify({
+      appID: "YouTubeDownloader",
+      title: "Erro ao tentar efetuar o download",
+      message: linkvalidated,
+      icon: path.join(__dirname, "/public/assets/YouTubeico.png"),
+      sound: true,
+      wait: true,
+      backgroundColor: "#1c1917",
+      timeout: 2,
+    });
   }
 }
 
